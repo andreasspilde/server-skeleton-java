@@ -1,19 +1,31 @@
 package com.tietoevry.serverskeletonjava.client;
 
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tietoevry.serverskeletonjava.dao.EventDAO;
+import com.tietoevry.serverskeletonjava.dao.PersonDAO;
 import com.tietoevry.serverskeletonjava.dto.EventDTO;
-import com.tietoevry.serverskeletonjava.dto.ResponseWrapper;
+import com.tietoevry.serverskeletonjava.dto.PersonDTO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class EventClient {
+
+    public static enum eventType{
+        PERSON_CREATED,
+        NAME_CHANGE,
+        SOCSECNUM_CHANGE,
+        ADDRESS_CHANGE,
+        EMAIL_CHANGE,
+        PHONE_CHANGE
+    }
     //For one event
     public String getEvent(long sequenceNumber){
         var tokenGen = new TokenClient();
@@ -31,25 +43,7 @@ public class EventClient {
 
 
         EventDTO resultat = test.block();
-        //result= event.toString();
-        //System.out.println(event);
-        //System.out.println(event.get("eventType"));
-        //System.out.println(event.get("value"));
-        //Map pers;
-        //pers = event.get("value");
-        /*if(event.get("eventType").toString().equals("PERSON_CREATED")){
-            PersonDTO person = new PersonDTO();
-            person.setName(pers.get("name").toString());
-            person.setSocSecNum(pers.get("socSecNum").toString());
-            person.setAddress(pers.get("address").toString());
-            person.setEmail(pers.get("email").toString());
-            person.setPhone(pers.get("phone").toString());
-            System.out.println("Her " + person);
-        }
-        else{
-            System.out.println("whut?");
-        }
-            */
+        
         result = resultat.toString();
         return result;
     }
@@ -70,8 +64,25 @@ public class EventClient {
          .bodyToFlux(EventDTO.class);
 
         List<EventDTO> eventList = response.collectList().block();
-        
-        System.out.println("Response : " + eventList);
+        EventDAO eventTable = new EventDAO();
+        PersonDAO personTable = new PersonDAO();
+        for ( EventDTO a : eventList){
+            eventTable.insertEvent(a);
+            //TODO add the changes, 
+            /*switch (a.getEventType()) {
+                case "PERSON_CREATED":
+                    personTable.insertPerson((PersonDTO) a.getValue());
+                    break;
+                case "NAME_CHANGE":
+                    personTable.in
+                default:
+                    break;
+            }
+            if(a.getEventType().equals("PERSON_CREATED")){
+            }*/
+        }
+        //System.out.println("Response : " + eventList);
+        //System.out.println("database entry 1  : " + eventTable.returnEventDTO("1"));
         result = eventList.toString();
         return result;
     }

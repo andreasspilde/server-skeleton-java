@@ -17,7 +17,7 @@ public class EventDTO implements IEventDTO{
 
     }
 
-    public EventDTO(String socSecNum, String eventType, String value, String sequenceNumber, String timestamp){
+    public EventDTO(String socSecNum, String eventType, Object value, String sequenceNumber, String timestamp){
     
         this.socSecNum = socSecNum;
         this.eventType = eventType;
