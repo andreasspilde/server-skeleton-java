@@ -2,8 +2,6 @@ package com.tietoevry.serverskeletonjava.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @Data er en Lombok-annotation som genererer boilerplate-kode for gettere, settere, equals, hashCode og toString.
