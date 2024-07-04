@@ -12,10 +12,24 @@ public class EventClientTest {
         Assertions.assertNotEquals("", events);
     }
     @Test
-    void getEventWithNumber(){
+    void getEventsTest(){
+        var getEvents = new EventClient();
+        String events = getEvents.getEvents();
+        System.out.println("Test : " + events);
+        Assertions.assertNotEquals("", events);
+    }
+    @Test
+    void getEventPerson(){
+        var getEvent = new EventClient();
+        String event = getEvent.getEvent(23);
+        System.out.println("Test2 : " + event);
+        Assertions.assertNotEquals("", event);
+    }
+    @Test
+    void getEventNumber(){
         var getEvent = new EventClient();
         String event = getEvent.getEvent(21);
-        System.out.println("Test2 : " + event);
+        System.out.println("test3 : " + event);
         Assertions.assertNotEquals("", event);
     }
     @Test

@@ -2,14 +2,12 @@ package com.tietoevry.serverskeletonjava.client;
 
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tietoevry.serverskeletonjava.dto.EventDTO;
-import com.tietoevry.serverskeletonjava.dto.EventDTOwithperson;
-import com.tietoevry.serverskeletonjava.dto.IEventDTO;
 import com.tietoevry.serverskeletonjava.dto.ResponseWrapper;
 
 import reactor.core.publisher.Flux;
@@ -65,14 +63,36 @@ public class EventClient {
 
         String webToken = "Bearer " + token;
         WebClient web = WebClient.create("http://localhost:8080");
-        Flux<ResponseWrapper> response = web.get()
+        Flux<EventDTO> response = web.get()
          .uri("/events")
          .header("Authorization", webToken)
          .retrieve()
-         .bodyToFlux(ResponseWrapper.class);
+         .bodyToFlux(EventDTO.class);
 
-        List<ResponseWrapper> eventList = response.collectList().block();
-    
+        List<EventDTO> eventList = response.collectList().block();
+        
+        System.out.println("Response : " + eventList);
+        result = eventList.toString();
+        return result;
+    }
+    //Geteventstest
+    public String getEventsTest(){
+        var tokenGen = new TokenClient();
+        String token = tokenGen.getToken();
+        token = token.substring(10);
+        token = token.substring(0, token.length()-2);
+        String result = "";
+
+        String webToken = "Bearer " + token;
+        WebClient web = WebClient.create("http://localhost:8080");
+        Flux<String> response = web.get()
+         .uri("/events")
+         .header("Authorization", webToken)
+         .retrieve()
+         .bodyToFlux(String.class);
+
+        List<String> eventList = response.collectList().block();
+        
         System.out.println("Response : " + eventList);
         result = eventList.toString();
         return result;
@@ -86,13 +106,13 @@ public class EventClient {
 
         String webToken = "Bearer " + token;
         WebClient web = WebClient.create("http://localhost:8080");
-        Flux<ResponseWrapper> response = web.get()
+        Flux<EventDTO> response = web.get()
          .uri("/events/from/" + sequenceNumber)
          .header("Authorization", webToken)
          .retrieve()
-         .bodyToFlux(ResponseWrapper.class);
+         .bodyToFlux(EventDTO.class);
 
-        List<ResponseWrapper> result = response.collectList().block();
+        List<EventDTO> result = response.collectList().block();
 
         //System.out.println("Response : " + eventList);
         String results = result.toString();

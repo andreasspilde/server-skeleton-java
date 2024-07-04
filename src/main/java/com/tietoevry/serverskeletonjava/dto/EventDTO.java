@@ -1,5 +1,6 @@
 package com.tietoevry.serverskeletonjava.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventDTO implements IEventDTO{
     @JsonProperty("socSecNum")
     private String socSecNum;

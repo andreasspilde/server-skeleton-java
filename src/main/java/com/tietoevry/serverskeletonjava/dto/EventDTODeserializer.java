@@ -32,6 +32,7 @@ public class EventDTODeserializer extends StdDeserializer<EventDTO> {
         eventDTO.setEventType(node.get("eventType").asText());
         eventDTO.setSequenceNumber(node.get("sequenceNumber").asText());
         eventDTO.setTimestamp(node.get("timestamp").asText());
+        System.out.println("Hey");
 
         // Deserialize value field
         JsonNode valueNode = node.get("value");
@@ -39,9 +40,9 @@ public class EventDTODeserializer extends StdDeserializer<EventDTO> {
         if (valueNode.isTextual()) {
             eventDTO.setValue(valueNode.asText());
         } else {
-            System.out.println("Her og tuller");
             eventDTO.setValue(mapper.treeToValue(valueNode, PersonDTO.class));
         }
+        System.out.println("Ho");
 
         return eventDTO;
     }
