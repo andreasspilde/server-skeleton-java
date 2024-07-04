@@ -1,22 +1,23 @@
 package com.tietoevry.serverskeletonjava.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
-public class EventDTO implements IEventDTO{
+
+public class EventDTOwithperson  implements IEventDTO{
     @JsonProperty("socSecNum")
     private String socSecNum;
     @JsonProperty("eventType")
     private String eventType;
     @JsonProperty("value")
-    private Object value;
+    private PersonDTO value;
     @JsonProperty("sequenceNumber")
-    private String sequenceNumber;
+    private String sequenceNumber;//: 14"
     @JsonProperty("timestamp")
-    private String timestamp;
+    private String timestamp;//: "2024-06-28T08:00:13"
 
-    public EventDTO(){
+    public EventDTOwithperson(){
 
     }
 
-    public EventDTO(String socSecNum, String eventType, String value, String sequenceNumber, String timestamp){
+    public EventDTOwithperson(String socSecNum, String eventType, PersonDTO value, String sequenceNumber, String timestamp){
     
         this.socSecNum = socSecNum;
         this.eventType = eventType;
@@ -30,7 +31,7 @@ public class EventDTO implements IEventDTO{
     public String getEventType(){
         return eventType;
     }
-    public Object getValue(){
+    public PersonDTO getValue(){
         return value;
     }
     public String getSequenceNumber(){
@@ -45,7 +46,7 @@ public class EventDTO implements IEventDTO{
     public void setEventType(String eventType){
         this.eventType = eventType;
     }
-    public void setValue(Object value){
+    public void setValue(PersonDTO value){
         this.value = value;
     }
     public void setSequenceNumber(String sequenceNumber){
@@ -54,14 +55,8 @@ public class EventDTO implements IEventDTO{
     public void setTimestamp(String timestamp){
         this.timestamp = timestamp;
     }
-    @Override
-    public String toString() {
-        return "EventDTO{" +
-                "socSecNum='" + socSecNum + '\'' +
-                ", eventType='" + eventType + '\'' +
-                ", value=" + value +
-                ", sequenceNumber=" + sequenceNumber +
-                ", timestamp='" + timestamp + '\'' +
-                '}';
-        }
+    @Override 
+    public String toString(){
+        return socSecNum + " \n" + eventType + " \n" + value + " \n" + sequenceNumber + " \n" + timestamp;
     }
+}

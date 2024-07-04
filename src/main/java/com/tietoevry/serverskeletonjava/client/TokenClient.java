@@ -1,41 +1,49 @@
 package com.tietoevry.serverskeletonjava.client;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.web.client.RestClient;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import reactor.core.publisher.Mono;
+
+
 
 public class TokenClient {
 
-    public String getToken(){
-        /*RestTemplate template = new RestTemplate();
-        String url = "http://localhost:8080/token";
-        HttpHeader header = new HttpHeaders();
-        String response = template.getForObject(url, String.class);
-        System.out.println("Test");
-    
 
-        
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .POST(HttpRequest.BodyPublishers.ofString("username=Donald&password=Fantonald"))
-            .build();
-        String resposne = request.
-        System.out.println(response);
+    public String getToken() {
+           
+            //Method for when GET was the method with a body
+            /*WebClient webClient = WebClient.create("http://localhost:8080");
+
+
+            Mono<ClientResponse> resultMono =  webClient.method(HttpMethod.GET)
+                .uri("/token")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData("username", "Donald")
+                    .with("password","Fantonald"))
+                .exchange();
+            
+            ClientResponse response = resultMono.block();
+            String result = response.bodyToMono(String.class).block();
+            System.out.println("Token : " + result);
         */
-        Map<String, String> formData = new HashMap<>();
-        formData.put("username", "Donald");
-        formData.put("password", "Fantonald");
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("username", "Donald");
+        formData.add("password","Fantonald");
 
-        RestClient restClient = RestClient.create();
+        WebClient webClient = WebClient.create("http://localhost:8080");
 
-        /*String result = restClient.get()
-            .uri("localhost:8080/token")
+        Mono<String> resultMono = webClient.post()
+            .uri("/token")
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .bodyValue(formData)
             .retrieve()
-            .body(String.class);*/
-        String result = restClient.method(HttpMethod.GET).body(formData).toString();
-        System.out.println(result);
+            .bodyToMono(String.class);
+
+        String result = resultMono.block();
+        //System.out.println("Token : " + result);
+        
         return result;
     }
 }
